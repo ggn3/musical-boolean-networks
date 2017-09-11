@@ -1,0 +1,17 @@
+sequence file
+
+import C_Major_Arpeggiated_for_sequence
+import C_Major_Sustained_Pattern_for_sequence
+
+track:A playing C_Major_Arpeggiated_for_sequence is
+play from Start for 6
+rest for 4
+play from Start for 12
+
+track:B playing C_Major_Sustained_Pattern_for_sequence is
+rest for 6
+play from Start for 16
+
+play tracks [A,B]
+
+

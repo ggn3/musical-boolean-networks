@@ -1,0 +1,131 @@
+network file
+
+set instrument to 33
+
+function:A(a) is
+1 --> 1
+default to 0
+
+function:XOR(a,b) is
+1,0 --> 1
+0,1 --> 1
+default to 0
+
+function:ACond(a,cond) is
+1,0 --> 1
+1,1 --> 0
+default to 0
+
+function:AndSwitch(self, a,b) is
+?,1,1 --> 1
+1,?,? --> 1
+default to 0
+
+function:AndSwitchReset(self, a,b,reset) is
+?,1,1,0 --> 1
+1,?,?,0 --> 1
+?,?,?,1 --> 0
+default to 0
+
+function:AndSwitchThree(self, a,b,c) is
+?,1,1,1 --> 1
+1,?,?,? --> 1
+default to 0
+
+function:AndSwitchThreeReset(self, a,b,c, reset) is
+?,1,1,1,0 --> 1
+1,?,?,?,0 --> 1
+?,?,?,?,1 --> 0
+default to 0
+
+function:And(a,b) is
+1,1 --> 1
+default to 0
+
+function:AndThree(a,b,c) is
+1,1,1 --> 1
+default to 0
+
+function:NotAAndB(a,b) is
+0,1 --> 1
+default to 0
+
+function:NotAAndBAndC(a,b,c) is
+0,1,1 --> 1
+default to 0
+
+function:TwoPulseWhenNot(self,activate1,cond) is
+0,1,0 --> 1
+1,1,0 --> 0
+default to 0
+
+node:C2_1
+node:C1_1
+node:G2_1
+node:A2_1
+node:C3_1
+
+node:F2_1
+node:F1_1
+node:C3_2
+node:D3_1
+node:F3_1
+
+node:r1
+node:r2
+node:r3
+node:r4
+
+node:c1
+node:c4
+node:reset1
+
+node:c1b
+node:c2b
+
+C2_1 has note C2
+C1_1 has note C1
+G2_1 has note G2
+A2_1 has note A2
+C3_1 has note C3
+
+F2_1 has note F2
+F1_1 has note F1
+C3_2 has note C3
+D3_1 has note D3
+F3_1 has note F3
+
+C2_1 has function TwoPulseWhenNot(C2_1, C3_1, c1b)
+
+F2_1 has function TwoPulseWhenNot(F2_1, F3_1, c2b)
+
+C1_1 has function NotAAndB(c4,r4)
+G2_1 has function A(A2_1)
+A2_1 has function A(C3_1)
+C3_1 has function A(C1_1)
+
+F1_1 has function NotAAndBAndC(c2b,c4,r4)
+C3_2 has function A(D3_1)
+D3_1 has function A(F3_1)
+F3_1 has function A(F1_1)
+
+r1 has function XOR(G2_1,C3_2)
+r2 has function A(r1)
+r3 has function A(r2)
+r4 has function A(r3)
+
+c1 has function AndSwitchReset(c1,r1,r1,reset1)
+c4 has function AndSwitchReset(c4,r1,c1,reset1)
+reset1 has function AndThree(r2,c2b,c1b)
+
+c1b has function AndSwitchThreeReset(c1b,r1,r1,c4,reset1)
+c2b has function AndSwitchThreeReset(c2b,r1,c1b,c4,reset1)
+
+state:Start is [C3_1,C1_1,G2_1 | 1]
+
+state:CFFC is [c1,c4,r2,C1_1 | 1]
+state:StartB is [C1_1,r2,c1 | 1]
+//state:Start is [C1_1,r3| 1]
+//state:Start is [C1_1,C3_2| 1]
+//state:Start is [C1_1,r2,c1 | 1]
+

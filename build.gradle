@@ -1,0 +1,32 @@
+buildscript {
+    dependencies {
+        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.8.2'
+
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+
+    }
+}
+
+apply plugin: 'java'
+
+dependencies{
+    compile "org.parboiled:parboiled-java:1.1.8"
+}
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+apply plugin: 'javafx-gradle-plugin'
+
+
+jfx {
+    mainClass = 'GUI.MainWindow'
+    jfxAppOutputDir = "build/app"
+    jfxMainAppJarName = "Musical_Boolean_Network_Player.jar"
+}
+
+

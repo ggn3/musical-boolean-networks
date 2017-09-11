@@ -1,0 +1,22 @@
+network file
+
+set instrument to 0
+
+function:triggerOnce(input, self) is
+1,0 --> 1
+?,1 --> 0
+default to 0
+
+node:C4_1
+node:E4_1
+node:G4_1
+
+C4_1 has note C4
+E4_1 has note E4
+G4_1 has note G4
+
+C4_1 has function triggerOnce(G4_1,C4_1)
+E4_1 has function triggerOnce(C4_1,E4_1)
+G4_1 has function triggerOnce(E4_1,G4_1)
+
+state:Start is [C4_1 | 1]
