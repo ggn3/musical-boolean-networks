@@ -1,0 +1,64 @@
+The domain specific language for describing musical Boolean networks and sequences is designed to be relatively simple to use. This document describes the structure of a network file and a sequence file by annotating two of the sample files.
+Either network files (with a "play" command) or sequence files can be loaded in the Musical Boolean Network Player by entering the filepath and pressing "Reload".
+NETWORK FILES (Annotated version of "C_Major_Arpeggiated")
+
+network file
+//^This file describes a network. Tells the interpretor to expect a network file.
+
+//Optional line to set the MIDI instrument index for this network. Defaults to 0.
+set instrument to 0 
+
+//A vertex function definition. Bracketed terms are named arguments/inputs. 
+//Lines like "1,0 --> 1" define the mapping from input to output.
+//A "?" in a mapping is used as short-hand for both "0" and "1". For instance "?,1 --> 0" is short-hand for the two rules "0,1 --> 0" and "1,1 --> 0".
+function:triggerOnce(input, self) is
+1,0 --> 1
+?,1 --> 0
+default to 0
+
+//Vertices (called nodes here) are defined before being assigned a note. Not all vertices need to be assigned notes.
+node:C4_1
+node:E4_1
+node:G4_1
+
+//Assigning notes to vertices. Note names are written in scientific pitch notation. E.g. Ab3, C#2, G5... 
+C4_1 has note C4
+E4_1 has note E4
+G4_1 has note G4
+
+//Assigning functions and their inputs to each vertex
+C4_1 has function triggerOnce(G4_1,C4_1)
+E4_1 has function triggerOnce(C4_1,E4_1)
+G4_1 has function triggerOnce(E4_1,G4_1)
+
+//Defining a named state (called "Start") from which to start the network
+state:Start is [C4_1 | 1]
+
+//A command to play the network for 9 time-steps. If the file is included in a sequence, this should not be present.
+play from Start for 9
+
+------------------------------------------------------
+------------------------------------------------------
+
+SEQUENCE FILES (Annotated version of "Example_Sequence")
+
+sequence file
+//^This file describes a sequence. Tells the interpretor to expect a sequence file.
+
+//Load the required network files
+import C_Major_Arpeggiated_for_sequence
+import C_Major_Sustained_Pattern_for_sequence
+
+//Define a track called "A", which uses the network from file "C_Major_Arpeggiated_for_sequence".
+//This track will play from the state "Start" for 6 steps, be silent for 4 steps and then play from "Start" again for 12 steps.
+track:A playing C_Major_Arpeggiated_for_sequence is
+play from Start for 6
+rest for 4
+play from Start for 12
+
+//Define a track called "B", which uses the network from file "C_Major_Sustained_Pattern_for_sequence". 
+track:B playing C_Major_Sustained_Pattern_for_sequence is
+rest for 6
+play from Start for 16
+
+play tracks [A,B]

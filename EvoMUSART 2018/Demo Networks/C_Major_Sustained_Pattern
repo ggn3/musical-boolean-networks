@@ -1,0 +1,36 @@
+network file
+
+set instrument to 0
+
+function:twoTriggerOnce(input1, input2, self) is
+1,1,0 --> 1
+?,?,1 --> 0
+default to 0
+
+function:A(input, self) is
+1,0 --> 1
+1,1 --> 0
+0,1 --> 1
+0,0 --> 0
+default to 0
+
+function:S(input1, input2, self) is
+?,?,1 --> 0
+1,?,0 --> 1
+0,1,0 --> 1
+default to 0
+
+node:S_1
+node:C4_1
+node:G4_1
+
+C4_1 has note C4
+G4_1 has note G4
+
+S_1 has function S(C4_1,G4_1,S_1)
+C4_1 has function A(S_1,C4_1)
+G4_1 has function twoTriggerOnce(S_1,C4_1,G4_1)
+
+state:Start is [C4_1| 1]
+
+play from Start for 16

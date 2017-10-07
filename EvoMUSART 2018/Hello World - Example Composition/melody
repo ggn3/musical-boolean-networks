@@ -1,0 +1,115 @@
+network file
+
+set instrument to 46
+
+function:susTil(self, turnOn, reset) is
+?,1,0 --> 1
+?,?,1 --> 0
+1,?,0 --> 1
+default to 0
+
+function:susTilWhenNot(self, turnOn, whenNot, reset) is
+?,1,0,0 --> 1
+?,?,?,1 --> 0
+1,?,0,0 --> 1
+default to 0
+
+function:tickAfter(self,prior) is
+?,1 --> 1
+?,0 --> 0
+default to 0
+
+function:onAfter(self, prior, reset) is
+0, 1, 0 --> 1
+1, 1, 0 --> 1
+1, 0, 0 --> 1
+?, ?, 1 --> 0
+default to 0
+
+function:onAfterOR(self, priorA, priorB, reset) is
+?, 1, ?, 0 --> 1
+?, ?, 1, 0 --> 1
+0, 0, 0, 0 --> 0
+?, ?, ?, 1 --> 0
+default to 0
+
+function:defaultOffTickOnceAfter(self, priorA) is
+0,1 --> 1
+1,? --> 0
+default to 0
+
+function:defaultOff(self) is
+default to 0
+
+function:afterBoth(a,b,self,reset) is
+1,1,?,0 --> 1
+?,?,1,0 --> 1
+?,?,?,1 --> 0
+default to 0
+
+node:1_a
+node:1_b
+node:1_c
+node:1_d
+node:1_e
+node:1_f
+node:1_g
+
+node:2_a
+
+node:c_2
+node:c_3
+node:c_4
+node:c_5
+node:c_6
+
+
+
+node:c2b
+node:c3b
+
+node:c2c
+node:c3c
+
+node:c2d
+
+node:r1
+
+node:cb_1
+
+1_a has note G2
+1_b has note G2
+1_c has note A2
+1_d has note B2
+1_e has note G2
+1_f has note E2
+
+2_a has note D2
+
+
+
+
+
+c_2 has function onAfterOR(c_2,1_a,2_a,c_6)
+c_3 has function onAfter(c_3,c_2,c_6)
+c_4 has function onAfter(c_4,c_3,c_6)
+c_5 has function onAfter(c_5,c_4,c_6)
+c_6 has function onAfter(c_6,c_5,c_6)
+
+c2b has function onAfter(c2b,1_c,c3b)
+c3b has function tickAfter(c3b,c2b)
+
+c2c has function onAfter(c2c,1_e,c3c)
+c3c has function tickAfter(c3c,c2c)
+
+c2d has function tickAfter(c2d,1_f)
+
+1_a has function susTil(1_a,cb_1,c_5)
+1_b has function susTil(1_b,c_6,1_b)
+1_c has function tickAfter(1_c,1_b)
+1_d has function susTil(1_d,1_c,c3b)
+1_e has function susTilWhenNot(1_e,c3b,c2b,c2c)
+1_f has function susTil(1_f,c3c,c2d)
+2_a has function susTil(2_a,c2d,c_6)
+
+state:Start is [1_a| 1]

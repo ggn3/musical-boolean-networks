@@ -1,0 +1,64 @@
+sequence file
+
+import melody
+import melody_inversion_delayed
+import core_b_rhythm_melody
+import core_b
+import core_b_down_8
+import core_percussion
+import core_b_rhythm_melody_up_4oct
+
+track:MelodyA playing melody is
+rest for 160
+play from Start for 96
+play from Start for 64
+
+track:MelodyAvar playing melody_inversion_delayed is
+rest for 168
+play from Start for 88
+rest for 8
+play from Start for 56
+
+track:BRhythm playing core_b_rhythm_melody is
+rest for 96
+play from Start for 64
+rest for 96
+play from Start for 64
+
+track:BRhythmHigh playing core_b_rhythm_melody_up_4oct is
+rest for 128
+play from Start for 32
+rest for 96
+play from Start for 64
+
+track:PercussionA playing core_percussion is
+rest for 64
+play from Start for 96
+rest for 96
+play from Start for 64
+
+track:Bintro playing core_b is
+play from Slow8TwoSection for 64
+rest for 256
+play from Slow8TwoSection for 64
+
+track:Bmelody playing core_b is
+rest for 96
+play from Start for 64
+rest for 96
+play from Start for 64
+
+
+track:Bback playing core_b_down_8 is
+rest for 64
+play from StartB for 160
+rest for 32
+play from StartB for 64
+
+
+//[Bintro,Bback,PercussionA,Bmelody,BRhythm,BRhythmHigh]
+//[Bintro,Bback,PercussionA,Bmelody,BRhythm,BRhythmHigh,MelodyA,MelodyAvar]
+
+play tracks [Bintro,Bback,PercussionA,Bmelody,BRhythm,BRhythmHigh,MelodyA,MelodyAvar]
+
+

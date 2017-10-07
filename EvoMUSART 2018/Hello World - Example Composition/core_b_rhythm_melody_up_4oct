@@ -1,0 +1,92 @@
+network file
+
+set instrument to 11
+
+function:susTil(self, turnOn, reset) is
+?,1,0 --> 1
+?,?,1 --> 0
+1,?,0 --> 1
+default to 0
+
+function:AfterAllSusTil(self, turnOn1, turnOn2, turnOn3, reset) is
+?,1,1,1,? --> 1
+?,?,0,?,1 --> 0
+?,?,?,0,1 --> 0
+?,?,0,0,1 --> 0
+1,?,?,?,0 --> 1
+default to 0
+
+function:tickOnceAfter(self, prior) is
+0, 1 --> 1
+1, 1 --> 0
+1, 0 --> 0
+0, 0 --> 0
+default to 0
+
+function:defaultOffTickOnceAfter(self, priorA) is
+0,1 --> 1
+1,? --> 0
+default to 0
+
+function:defaultOff(self) is
+default to 0
+
+function:afterBoth(a,b,self,reset) is
+1,1,?,0 --> 1
+?,?,1,0 --> 1
+?,?,?,1 --> 0
+default to 0
+
+node:1_a
+node:1_b
+node:1_c
+
+node:c_1
+node:c_2
+node:c_3
+node:c_4
+node:c_5
+node:c_6
+node:c_1b
+node:c_2b
+node:c_3b
+node:c_4b
+node:c_5b
+node:c_6b
+node:c_7b
+node:c_8b
+
+node:r1
+
+node:cb_1
+
+1_a has note G4
+1_b has note D5
+1_c has note C5
+
+
+c_1 has function tickOnceAfter(c_1,c_8b)
+c_2 has function tickOnceAfter(c_2,c_1)
+c_3 has function tickOnceAfter(c_3,c_2)
+c_4 has function tickOnceAfter(c_4,c_3)
+c_5 has function tickOnceAfter(c_5,c_4)
+c_6 has function tickOnceAfter(c_6,c_5)
+
+c_1b has function tickOnceAfter(c_1b,cb_1)
+c_2b has function tickOnceAfter(c_2b,c_1b)
+c_3b has function tickOnceAfter(c_3b,c_2b)
+c_4b has function tickOnceAfter(c_4b,c_3b)
+c_5b has function tickOnceAfter(c_5b,c_4b)
+c_6b has function tickOnceAfter(c_6b,c_5b)
+c_7b has function tickOnceAfter(c_7b,c_6b)
+c_8b has function tickOnceAfter(c_8b,c_7b)
+
+
+
+cb_1 has function tickOnceAfter(cb_1,1_b)
+
+1_a has function susTil(1_a,c_8b,c_6)
+1_b has function susTil(1_b,c_6,cb_1)
+1_c has function susTil(1_c,cb_1,c_7b)
+
+state:Start is [1_a,c_1| 1]
